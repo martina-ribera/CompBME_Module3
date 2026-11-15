@@ -23,8 +23,8 @@ products = {
                     depot='gut (oral)'),
     'Cavilatide':  dict(Favailable=0.01, #this is a pill so same dosage paramteres as wegovy assumed
                     ka=0.006,            # 1/h, absorption rate
-                    D=10.5,               # mg
-                    interval=12,       # h between doses (daily)
+                    D=25,               # mg
+                    interval=24,       # h between doses (daily)
                     n_doses=200,
                     depot='gut (oral)'),
 }
