@@ -1,0 +1,30 @@
+# ligand_receptor.py
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def Fact(GLP1, Sema, Kd_GLP1, Kd_Sema): #rename for concentrations and dissociation constants
+    """Fractional GLP1R activation by GLP1 and semaglutide""" #comparison of the two agonsists
+    return (Kd_Sema*GLP1 + Kd_GLP1*Sema) / (Kd_GLP1*Kd_Sema + Kd_Sema*GLP1 + Kd_GLP1*Sema) #equation for fractional activation of GLP1R by GLP1 and semaglutide
+
+Kd_GLP1 = 0.17       # GLP1 dissociation constant [nM]
+Kd_Sema = 0.38       # Semaglutide dissociation constant [nM]
+
+GLP1_fasting = 0.015  # GLP1 concentration during fasting [nM]
+GLP1_fed = 0.040      # GLP1 concentration after meal [nM]
+
+Sema = np.logspace(-2, 4, 500)  # Semaglutide concentration [nM]
+
+plt.figure()
+plt.semilogx(Sema, Fact(GLP1_fasting, Sema, Kd_GLP1, Kd_Sema), lw=2, label="Fasting GLP1")
+plt.semilogx(Sema, Fact(GLP1_fed, Sema, Kd_GLP1, Kd_Sema), lw=2, label="Fed GLP1")
+plt.axhline(0.5, ls="--", c="gray", lw=1)
+plt.ylim(0, 1)
+plt.xlabel("[Semaglutide] (nM, log scale)")
+plt.ylabel("Fraction active (Fact)")
+plt.legend()
+plt.show()
+
+#to calculate receptor activation at 1 nM semaglutide
+print("Fasting activation:", Fact(GLP1_fasting, 1, Kd_GLP1, Kd_Sema))
+print("Fed activation:", Fact(GLP1_fed, 1, Kd_GLP1, Kd_Sema))
