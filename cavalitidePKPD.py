@@ -7,12 +7,10 @@ def Fact(L1, L2, Kd1, Kd2):
     """Fractional receptor activation with two agonists L1 and L2"""
     return (Kd2*L1+Kd1*L2) / (Kd1*Kd2 + Kd2*L1 + Kd1*L2)
 
-Kd2 = 0.077    # Optimized Cavalitide Kd
-
-
-# Load the data
-data = np.loadtxt("cavalitide_data.csv", delimiter=",", skiprows=1)
-L2_loaded, Fact_loaded = data[:, 0], data[:, 1]
+# Optimized binding parameters from Task 1
+Kd1 = 0.17       # GLP1 Kd (nM)
+Kd2 = 0.077      # Optimized Cavalitide Kd (nM)
+L1 = 0.015       # Fasting GLP1 concentration (nM)
 
 # ===== choose product: 'Ozempic' or 'Wegovy' =====
 drug = 'Cavilatide'
@@ -21,8 +19,8 @@ drug = 'Cavilatide'
 products = {
     'Cavilatide':  dict(Favailable=0.01, #this is a pill so same dosage paramteres as wegovy assumed
                     ka=0.006,            # 1/h, absorption rate
-                    D=10.5,               # mg
-                    interval=12,       # h between doses (daily)
+                    D=21,               # mg
+                    interval=24,       # h between doses (daily)
                     n_doses=100,
                     depot='gut (oral)'),
 }
@@ -83,7 +81,7 @@ fraction_active = Fact(L1, Cc_free, Kd1, Kd2)
 print("Final free blood concentration:",
       Cc_free[-1], "nM")
 
-print("Final fraction of active GLP1R receptors:",
+print("Final fraction of active GLP1 receptors:",
       fraction_active[-1])
 
 print("Final receptor activation:",
@@ -105,7 +103,7 @@ ax1.grid(alpha=0.3)
 ax2.plot(t / 24, fraction_active, color='red')
 ax2.set_xlabel("Time (days)")
 ax2.set_ylabel("Fraction of Active GLP1R Receptors")
-ax2.set_title("GLP1R Receptor Activation Over 100 Days")
+ax2.set_title("GLP1 Receptor Activation Over 100 Days")
 ax2.set_ylim(0, 1)
 ax2.set_xlim(0, 100)
 ax2.grid(alpha=0.3)
